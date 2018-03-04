@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 
 import com.mocircle.jwinlog.test.WindowsOnlyTestRunner;
 
-@RunWith(WindowsOnlyTestRunner.class)
+//@RunWith(WindowsOnlyTestRunner.class)
 public class EventLogManagerTest {
 
 	// @Test
