@@ -70,6 +70,7 @@ public class EventEntryIterator implements Iterator<EventEntry> {
 		}
 	}
 
+	// Return true if finds any event put into queue
 	private boolean fillEvents() {
 		int flag = lastRecordId == null ? retrieveMode : EventRetrieveMode.AFTER_RECORD_ID;
 		EVT_HANDLE bookmark = null;
@@ -81,19 +82,21 @@ public class EventEntryIterator implements Iterator<EventEntry> {
 		EVT_HANDLE[] eventHandles = EventLogApi.handleEvent(subscription, cacheSize);
 		EventLogApi.closeHandle(bookmark);
 		EventLogApi.closeHandle(subscription);
-		if (eventHandles == null) {
+		if (eventHandles == null || eventHandles.length == 0) {
 			return false;
 		}
+		int fillEvents = 0;
 		for (EVT_HANDLE eventHandle : eventHandles) {
 			try {
 				EventEntry event = RenderApi.render(session, eventHandle, option);
 				cacheQueue.add(event);
+				fillEvents++;
 			} catch (Win32Exception e) {
 				logger.warn("Cannot render event", e);
 			} finally {
 				EventLogApi.closeHandle(eventHandle);
 			}
 		}
-		return true;
+		return fillEvents > 0;
 	}
 }

@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.mocircle.jwinlog.model.LogInfo;
 import com.mocircle.jwinlog.test.WindowsOnlyTestRunner;
 
 @RunWith(WindowsOnlyTestRunner.class)
@@ -28,4 +29,13 @@ public class EventLogApiTest {
 		Assert.assertTrue(publishers.length > 0);
 	}
 
+	@Test
+	public void testGetLogInfo() {
+		LogInfo info = EventLogApi.getLogInfo(null, "Application");
+		Assert.assertNotNull(info);
+		info = EventLogApi.getLogInfo(null, "System");
+		Assert.assertNotNull(info);
+		info = EventLogApi.getLogInfo(null, "Security");
+		Assert.assertNotNull(info);
+	}
 }

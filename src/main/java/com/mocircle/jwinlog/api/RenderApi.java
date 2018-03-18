@@ -7,6 +7,7 @@ import com.mocircle.jwinlog.EventEntry;
 import com.mocircle.jwinlog.RenderOption;
 import com.mocircle.jwinlog.model.EventType;
 import com.mocircle.jwinlog.parser.EventXmlParser;
+import com.sun.jna.platform.win32.Win32Exception;
 import com.sun.jna.platform.win32.Winevt.EVT_HANDLE;
 
 public final class RenderApi {
@@ -26,10 +27,16 @@ public final class RenderApi {
 		// For event xml rendering
 		String eventRaw = null;
 		if (option.isRenderEventXml()) {
-			eventRaw = EventLogApi.formatEventXml(session, eventHandle, option.getLocaleId());
+			try {
+				eventRaw = EventLogApi.formatEventXml(session, eventHandle, option.getLocaleId());
+			} catch (Win32Exception e) {
+				logger.warn("Failed to format event xml content, skip and keep original content.", e);
+				eventRaw = EventLogApi.renderEventXml(eventHandle);
+			}
 		} else {
 			eventRaw = EventLogApi.renderEventXml(eventHandle);
 		}
+		eventRaw = eventRaw.trim();
 		event.setEventRaw(eventRaw);
 
 		// For event object parsing
