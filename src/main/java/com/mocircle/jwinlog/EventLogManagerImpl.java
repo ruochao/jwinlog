@@ -75,7 +75,15 @@ class EventLogManagerImpl implements EventLogManager {
 	}
 
 	@Override
-	public EventEntryIterator retrieveEventLogs(String channelName, long lastRecordId, RenderOption option) {
+	public EventEntryIterator retrieveEventLogs(String channelName, int retrieveMode, Long lastRecordId,
+			RenderOption option) {
+		return new EventEntryIterator(session, channelName, retrieveMode, lastRecordId, option,
+				DEFAULT_ITERATOR_CACHE_SIZE);
+	}
+
+	@Override
+	public EventEntryIterator retrieveEventLogsFromRecordId(String channelName, long lastRecordId,
+			RenderOption option) {
 		return retrieveEventLogs(channelName, EventRetrieveMode.AFTER_RECORD_ID, lastRecordId, option,
 				DEFAULT_ITERATOR_CACHE_SIZE);
 	}

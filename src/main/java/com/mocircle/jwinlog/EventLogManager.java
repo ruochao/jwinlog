@@ -15,7 +15,9 @@ public interface EventLogManager {
 	EventEntryIterator retrieveEventLogs(String channelName, int retrieveMode, Long lastRecordId, RenderOption option,
 			int cacheSize);
 
-	EventEntryIterator retrieveEventLogs(String channelName, long lastRecordId, RenderOption option);
+	EventEntryIterator retrieveEventLogs(String channelName, int retrieveMode, Long lastRecordId, RenderOption option);
+
+	EventEntryIterator retrieveEventLogsFromRecordId(String channelName, long lastRecordId, RenderOption option);
 
 	EventEntryIterator retrieveEventLogsFromOldestRecord(String channelName, RenderOption option);
 
