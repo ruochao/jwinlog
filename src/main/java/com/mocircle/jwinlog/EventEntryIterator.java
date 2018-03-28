@@ -36,12 +36,28 @@ public class EventEntryIterator implements Iterator<EventEntry> {
 
 		// Reset last record id
 		if (retrieveMode != EventRetrieveMode.AFTER_RECORD_ID) {
-			lastRecordId = null;
+			this.lastRecordId = null;
 		}
+	}
+
+	public String getChannelName() {
+		return channelName;
+	}
+
+	public int getRetrieveMode() {
+		return retrieveMode;
 	}
 
 	public Long getLastRecordId() {
 		return lastRecordId;
+	}
+
+	public RenderOption getRenderOption() {
+		return option;
+	}
+
+	public int getCacheSize() {
+		return cacheSize;
 	}
 
 	@Override
